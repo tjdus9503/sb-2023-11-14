@@ -35,7 +35,7 @@ public class ArticleController {
 
         String resultCode = rs.getResultCode();
         String msg = rs.getMsg();
-        Article _article = (Article) rs.getData(); // 과거의 Object 방식은 수동형변환이 필요하다.
+        Article _article = rs.getData(); // 수동형변환 매번 귀찮으니, data를 Article 타입으로.
 
         return rs;
     }
@@ -58,7 +58,7 @@ public class ArticleController {
 class RsData {
     private String resultCode;
     private String msg;
-    private Object data;
+    private Article data;
 }
 
 @AllArgsConstructor
