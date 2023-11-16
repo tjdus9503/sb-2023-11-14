@@ -56,7 +56,11 @@ public class ArticleController {
     }
 
     @GetMapping("/article/list")
-    String showList() {
+    String showList(Model model) {
+        List<Article> articles = articleService.findAll();
+
+        model.addAttribute("articles", articles);
+
         return "article/list";
     }
 
