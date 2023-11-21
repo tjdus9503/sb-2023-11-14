@@ -14,7 +14,6 @@ public class NeedToLoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        System.out.println("NeedToLoginInterceptor.preHandle 실행됨");
         if (!rq.isLogined()) {
             throw new RuntimeException("로그인 후 이용해주세요.");
         }
