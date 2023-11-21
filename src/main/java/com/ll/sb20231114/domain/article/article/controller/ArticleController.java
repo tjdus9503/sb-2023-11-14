@@ -67,9 +67,11 @@ public class ArticleController {
 
     @GetMapping("/article/modify/{id}")
     String showModify(Model model, @PathVariable long id) {
-        if (!rq.isLogined()) throw new RuntimeException("로그인 후 이용해주세요.");
-
         Article article = articleService.findById(id).get();
+
+        if (article == null) throw new RuntimeException("존재하지 않는 게시물입니다.");
+
+        if (!articleService.canModify(rq.getMember(), article)) throw new RuntimeException("수정권한이 없습니다.");
 
         model.addAttribute("article", article);
 
