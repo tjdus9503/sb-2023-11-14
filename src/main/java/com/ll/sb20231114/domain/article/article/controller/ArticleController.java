@@ -88,9 +88,13 @@ public class ArticleController {
 
     @PostMapping("/article/modify/{id}")
     String modify(@PathVariable long id, @Valid ModifyForm modifyForm) {
-        if (!rq.isLogined()) throw new RuntimeException("로그인 후 이용해주세요.");
+        Article article = articleService.findById(id).get();
 
-        articleService.modify(id, modifyForm.title, modifyForm.body);
+        if (article == null) throw new RuntimeException("존재하지 않는 게시물입니다.");
+
+        if (!articleService.canModify(rq.getMember(), article)) throw new RuntimeException("수정권한이 없습니다.");
+
+        articleService.modify(article, modifyForm.title, modifyForm.body);
 
         return rq.redirect("/article/list", "%d번 게시물 수정되었습니다.".formatted(id));
     }
